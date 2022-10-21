@@ -1,11 +1,11 @@
 
 
 function getComputerChoice() {    
-    let number = Math.floor(Math.random() * 2 + 1);
+    let number = Math.floor(Math.random() * 3 + 1);
     switch (number) {
-      case 0: return "rock"; break;
-      case 1: return "paper"; break;
-      case 2: return "scissors";
+      case 1: return "rock"; break;
+      case 2: return "paper"; break;
+      case 3: return "scissors";
     }   
 }
 
@@ -49,26 +49,46 @@ function playRound(playerSelection, computerSelection) {
 }
 
 
-
-
-function game() {
-    let computerWinCount = 0;
-    let playerWinCount = 0;
-    
-    for (let i = 0; i < 5; i++) {
+let rounds = 0;
+let computerWinCount = 0;
+let playerWinCount = 0;
+const btns = document.querySelectorAll("button");
+console.log(btns);
+btns.forEach(btn => {
+    btn.addEventListener("click", function(e){ 
+        ++ rounds
+        const playerSelection = e.target.id;   
         const computerSelection = getComputerChoice();
-        const playerSelection = window.prompt("make your decision");
+        console.log("computer: " + computerSelection);
+        console.log("player: " + playerSelection); 
         let result = playRound(playerSelection, computerSelection);
         console.log(result);
+        const body = document.querySelector("body");
+        const resultDiv = document.createElement("div");
+        resultDiv.textContent = `${result}`;
+        body.appendChild(resultDiv);
         if (result === "you lose") {
             computerWinCount ++;
         } else if (result === "you win!") {
-            playerWinCount += 1;
+            playerWinCount ++;
         }
-    }
+        if (rounds === 5) {
+            endGame()
+            rounds = 0;
+            computerWinCount = 0;
+            playerWinCount = 0;
+        }
+    });
+});
+
+
+
+function endGame() {
+   
     console.log("computer: " + computerWinCount);
     console.log("player: " + playerWinCount);
-    
+
+
     if (computerWinCount === playerWinCount) {
         console.log("it's a tie!!!!!!");
         return "it's a tie";
