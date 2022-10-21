@@ -1,5 +1,3 @@
-
-
 function getComputerChoice() {    
     let number = Math.floor(Math.random() * 3 + 1);
     switch (number) {
@@ -48,55 +46,63 @@ function playRound(playerSelection, computerSelection) {
     }  
 }
 
+function getWinnerOfFiveRounds() {
+    console.log("computer: " + computerWinCount);
+    console.log("player: " + playerWinCount);
 
-let rounds = 0;
+    if (computerWinCount === playerWinCount) {
+        console.log("it's a tie!!!!!!");
+        return "it's a tie!!!!!";
+    } else if (computerWinCount > playerWinCount) {
+        console.log("computer wins!!!!!");
+        return "computer wins!!!!!";
+    } else if (computerWinCount < playerWinCount) {
+        console.log("player wins!!!!!");
+        return "player wins!!!!!";
+    }
+}
+
+function createDiv(content, style) {
+    const body = document.querySelector("body");
+    const div = document.createElement("div");
+    div.textContent = `${content}`;
+    div.style.cssText = `${style}`;
+    body.appendChild(div);
+}
+
+
+//the game starts here when the player clicks a button
+
+let numberOfRounds = 0;
 let computerWinCount = 0;
 let playerWinCount = 0;
+
 const btns = document.querySelectorAll("button");
 console.log(btns);
 btns.forEach(btn => {
     btn.addEventListener("click", function(e){ 
-        ++ rounds
-        const playerSelection = e.target.id;   
+        ++ numberOfRounds
         const computerSelection = getComputerChoice();
+        const playerSelection = e.target.id;
         console.log("computer: " + computerSelection);
         console.log("player: " + playerSelection); 
-        let result = playRound(playerSelection, computerSelection);
-        console.log(result);
-        const body = document.querySelector("body");
-        const resultDiv = document.createElement("div");
-        resultDiv.textContent = `${result}`;
-        body.appendChild(resultDiv);
-        if (result === "you lose") {
+        const resultThisRound = playRound(playerSelection, computerSelection);
+        console.log(resultThisRound);
+        //create div to display result:
+        createDiv(resultThisRound);
+        //keep score:
+        if (resultThisRound === "you lose") {
             computerWinCount ++;
-        } else if (result === "you win!") {
+        } else if (resultThisRound === "you win!") {
             playerWinCount ++;
         }
-        if (rounds === 5) {
-            endGame()
-            rounds = 0;
+        //end game after 5 rounds:
+        if (numberOfRounds === 5) {
+            let winner = getWinnerOfFiveRounds()
+            createDiv(winner, 'font-size: 30px');
+            numberOfRounds = 0;
             computerWinCount = 0;
             playerWinCount = 0;
         }
     });
 });
-
-
-
-function endGame() {
-   
-    console.log("computer: " + computerWinCount);
-    console.log("player: " + playerWinCount);
-
-
-    if (computerWinCount === playerWinCount) {
-        console.log("it's a tie!!!!!!");
-        return "it's a tie";
-    } else if (computerWinCount > playerWinCount) {
-        console.log("computer wins!!!!!");
-        return "computer wins";
-    } else if (computerWinCount < playerWinCount) {
-        console.log("player wins!!!!!");
-        return "player wins";
-    }
-}
