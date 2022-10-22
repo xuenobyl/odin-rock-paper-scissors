@@ -1,5 +1,5 @@
 function getComputerChoice() {    
-    let number = Math.floor(Math.random() * 3 + 1);
+    const number = Math.floor(Math.random() * 3 + 1);
     switch (number) {
       case 1: return "rock"; break;
       case 2: return "paper"; break;
@@ -51,14 +51,11 @@ function getWinnerOfFiveRounds() {
     console.log("player: " + playerWinCount);
 
     if (computerWinCount === playerWinCount) {
-        console.log("it's a tie!!!!!!");
         return "it's a tie!!!!!";
     } else if (computerWinCount > playerWinCount) {
-        console.log("computer wins!!!!!");
         return "computer wins!!!!!";
     } else if (computerWinCount < playerWinCount) {
-        console.log("player wins!!!!!");
-        return "player wins!!!!!";
+        return "you win!!!!!";
     }
 }
 
@@ -88,7 +85,6 @@ btns.forEach(btn => {
         console.log("player: " + playerSelection); 
         const resultThisRound = playRound(playerSelection, computerSelection);
         console.log(resultThisRound);
-        //create div to display result:
         createDiv(resultThisRound);
         //keep score:
         if (resultThisRound === "you lose") {
@@ -98,7 +94,8 @@ btns.forEach(btn => {
         }
         //end game after 5 rounds:
         if (numberOfRounds === 5) {
-            let winner = getWinnerOfFiveRounds()
+            const winner = getWinnerOfFiveRounds()
+            console.log(winner);
             createDiv(winner, 'font-size: 30px');
             numberOfRounds = 0;
             computerWinCount = 0;
